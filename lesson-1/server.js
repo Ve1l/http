@@ -1,11 +1,9 @@
-const server = http.createServer(requestLestener)
+const path = require('path')
+const fs = require('fs')
 const http = require('http')
-const host = 'localhost'
-const port = 8000;
 
-server.listen(port, host, () => {
-  console.log('Server is running on http://${host}:${port}')
-})
+const host = 'localhost'
+const port = 8000
 
 const requestLestener = (req, res) => {
   if (req.url === '/get' && req.method === 'GET') {
@@ -28,18 +26,20 @@ const requestLestener = (req, res) => {
   } else if (req.url === '/post' && req.method === 'POST') {
     res.writeHead(200)
     res.end('success post')
-  }
-  else if (req.url === '/redirect' && req.method === 'GET') {
-    res.writeHead(301, {'Location': '/redirected'})
+  } else if (req.url === '/redirect' && req.method === 'GET') {
+    res.writeHead(301, { Location: '/redirected' })
     res.end('the resource is available at the link /redirected')
-  }
-  else if (req.url === '/redirected' && req.method === 'GET') {
+  } else if (req.url === '/redirected' && req.method === 'GET') {
     res.writeHead(200)
     res.end('succesfully redirected')
-  }
-  else {
+  } else {
     res.writeHead(405)
     res.end('HTTP method not allowed')
   }
 }
 
+const server = http.createServer(requestLestener)
+
+server.listen(port, host, () => {
+  console.log('Server is running on http://${host}:${port}')
+})
